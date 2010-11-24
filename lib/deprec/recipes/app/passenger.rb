@@ -4,7 +4,7 @@ Capistrano::Configuration.instance(:must_exist).load do
     namespace :passenger do
 
       set :passenger_version, '2.2.14'    
-      set :passenger_install_dir, "/usr/local/lib/ruby/gems/1.8/gems/passenger-#{passenger_version}"
+      set :passenger_install_dir, "/usr/local/lib/ruby/gems/1.9.1/gems/passenger-#{passenger_version}"
    
       # Default settings for Passenger config files
       set(:passenger_document_root) { "#{current_path}/public" }
