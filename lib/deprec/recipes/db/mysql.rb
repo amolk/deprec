@@ -12,7 +12,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       task :install, :roles => :db do
         install_deps
         #config
-        start
+        #start
         # symlink_mysql_sockfile # XXX still needed?
       end
       
