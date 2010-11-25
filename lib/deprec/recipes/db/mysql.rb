@@ -11,7 +11,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       desc "Install mysql"
       task :install, :roles => :db do
         install_deps
-        config
+        #config
         start
         # symlink_mysql_sockfile # XXX still needed?
       end
@@ -56,22 +56,22 @@ Capistrano::Configuration.instance(:must_exist).load do
       
       desc "Start Mysql"
       task :start, :roles => :db do
-        send(run_method, "/etc/init.d/mysql start")
+        send(run_method, "start mysql")
       end
       
       desc "Stop Mysql"
       task :stop, :roles => :db do
-        send(run_method, "/etc/init.d/mysql stop")
+        send(run_method, "stop mysql")
       end
       
       desc "Restart Mysql"
       task :restart, :roles => :db do
-        send(run_method, "/etc/init.d/mysql restart")
+        send(run_method, "restart mysql")
       end
       
       desc "Reload Mysql"
       task :reload, :roles => :db do
-        send(run_method, "/etc/init.d/mysql reload")
+        send(run_method, "reload mysql")
       end
       
       

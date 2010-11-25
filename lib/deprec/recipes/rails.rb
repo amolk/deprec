@@ -11,8 +11,8 @@ Capistrano::Configuration.instance(:must_exist).load do
   set :rails_env, 'production'
   set :gems_for_project, nil # Array of gems to be installed for app
   set :packages_for_project, nil # Array of packages to be installed for app
-  set :shared_dirs, nil # Array of directories that should be created under shared/
-                        # and linked to in the project
+  set :shared_dirs, ['bundle'] # Array of directories that should be created under shared/
+                               # and linked to in the project
 
   # Hook into the default capistrano deploy tasks
   before 'deploy:setup', :except => { :no_release => true } do
@@ -197,6 +197,11 @@ Capistrano::Configuration.instance(:must_exist).load do
         end
       end
       
+      task :bundle_new_release, :roles => :app do
+        run "cd #{current_path} && bundle install --without test"
+      end
+      after 'deploy:update_code', 'deprec:rails:bundle_new_release'
+      
       task :install_packages_for_project, :roles => :app do
         if packages_for_project
           apt.install({ :base => packages_for_project }, :stable)
@@ -274,7 +279,6 @@ Capistrano::Configuration.instance(:must_exist).load do
           std.su_put(File.read(full_local_path), "#{shared_path}/config/database.yml", '/tmp/')
         end
       end
-      
     end
 
     namespace :database do
