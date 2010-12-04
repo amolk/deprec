@@ -290,7 +290,7 @@ Capistrano::Configuration.instance(:must_exist).load do
 
       desc "Run database migrations"
       task :migrate, :roles => :app do
-        run "cd #{deploy_to}/current && rake db:migrate RAILS_ENV=#{rails_env}"
+        run "cd #{deploy_to}/current && bundle install --without test && rake db:migrate RAILS_ENV=#{rails_env}"
       end
       
       desc "Run database migrations"
