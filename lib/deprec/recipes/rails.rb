@@ -200,7 +200,7 @@ Capistrano::Configuration.instance(:must_exist).load do
       task :bundle_new_release, :roles => :app do
         run "cd #{current_path} && bundle install --without test"
       end
-      after 'deploy:update_code', 'deprec:rails:bundle_new_release'
+      after 'deploy:symlink', 'deprec:rails:bundle_new_release'
       
       task :install_packages_for_project, :roles => :app do
         if packages_for_project
