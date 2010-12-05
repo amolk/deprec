@@ -11,7 +11,7 @@ Capistrano::Configuration.instance(:must_exist).load do
   set :rails_env, 'production'
   set :gems_for_project, nil # Array of gems to be installed for app
   set :packages_for_project, nil # Array of packages to be installed for app
-  set :shared_dirs, ['bundle'] # Array of directories that should be created under shared/
+  set :shared_dirs, [] # Array of directories that should be created under shared/
                                # and linked to in the project
 
   # Hook into the default capistrano deploy tasks
@@ -181,6 +181,7 @@ Capistrano::Configuration.instance(:must_exist).load do
         if shared_dirs
           shared_dirs.each { |dir| deprec2.mkdir( "#{shared_path}/#{dir}", :via => :sudo ) }
         end
+        deprec2.mkdir( "#{shared_path}/vendor_bundle", :via => :sudo )
       end
       #
       desc "Symlink shared dirs."
@@ -195,10 +196,12 @@ Capistrano::Configuration.instance(:must_exist).load do
             run "ln -nfs #{shared_path}/#{dir} #{current_path}/#{dir}" 
           end
         end
+        
+        run "ln -nfs #{shared_path}/vendor_bundle #{current_path}/vendor/bundle" 
       end
       
       task :bundle_new_release, :roles => :app do
-        run "cd #{current_path} && bundle install --without test"
+        run "cd #{current_path} && bundle install --deployment"
       end
       after 'deploy:symlink', 'deprec:rails:bundle_new_release'
       
@@ -290,7 +293,7 @@ Capistrano::Configuration.instance(:must_exist).load do
 
       desc "Run database migrations"
       task :migrate, :roles => :app do
-        run "cd #{deploy_to}/current && bundle install --without test && rake db:migrate RAILS_ENV=#{rails_env}"
+        run "cd #{deploy_to}/current && bundle install --deployment && rake db:migrate RAILS_ENV=#{rails_env}"
       end
       
       desc "Run database migrations"
