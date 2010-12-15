@@ -43,6 +43,7 @@ require "#{File.dirname(__FILE__)}/recipes/ssl"
 
 require "#{File.dirname(__FILE__)}/recipes/postfix"
 require "#{File.dirname(__FILE__)}/recipes/memcache"
+require "#{File.dirname(__FILE__)}/recipes/redis"
 require "#{File.dirname(__FILE__)}/recipes/monit"
 require "#{File.dirname(__FILE__)}/recipes/network"
 require "#{File.dirname(__FILE__)}/recipes/nagios"
