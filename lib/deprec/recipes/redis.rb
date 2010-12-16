@@ -36,12 +36,12 @@ Capistrano::Configuration.instance(:must_exist).load do
     version = 'redis-2.0.4'
     set :src_package, {
       :file => version + '.tar.gz',   
-      :sha1sum => 'fee2f1960eda22385503517a9a6dcae610df84d5', 
-      :dir => version,  
-      :url => "http://redis.googlecode.com/files/#{version}.tar.gz",
-      :unpack => "tar zxf #{version}.tar.gz;",
+      :md5sum => '7799de79f36ebdb73bcb8f09816d1ac3  redis-2.0.3.tar.gz',
+      :url => "http://redis.googlecode.com/files/redis-2.0.3.tar.gz",
       :configure => %w{
         }.reject{|arg| arg.match '#'}.join(' '),
+      :dir => version,  
+      :unpack => "tar zxf #{version}.tar.gz;",
       :make => 'make;',
       :install => 'make install;',
       :post_install => 'install -b utils/redis_init_script /etc/init.d/redis;'
